@@ -10,7 +10,7 @@ package model;
  */
 public class product {
     
-        private String name;
+    private String name;
     private double price;
 
     public product(String nameX, double priceX){
@@ -33,7 +33,7 @@ public class product {
     }
 
     public String toString(){
-        return "Name: "+name+"\nPrice: "+price;
+        return getName() + "/" + getPrice();
     }
     
 }

@@ -1,0 +1,20 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 29 oct 2025, 10:23:17
+    Author     : slt
+*/
+
+.mainButtons{
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+    -fx-text-fill: red;
+}
+
+.mainText{
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: transparent transparent grey transparent; 
+    -fx-text-fill: black;
+}

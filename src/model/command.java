@@ -12,12 +12,24 @@ import java.util.ArrayList;
  */
 public class command {
     
+    
+        private int id;
         private ArrayList<product> command;
+        
 
-    public command(){
+    public command(int newId){
         command = new ArrayList<>();
+        id = newId;
     }
-
+    
+    public void setId(int newId){
+        id = newId;
+    }
+    
+    public int getId(){
+        return id;
+    }
+    
     public void setCommand(ArrayList<product> x) {
         command = x;
     }

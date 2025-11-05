@@ -12,7 +12,7 @@
             <Font name="Ubuntu Sans Mono Regular" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="commandsButton" layoutX="495.0" layoutY="230.0" mnemonicParsing="false" onMouseClicked="#viewToCommands" prefHeight="140.0" prefWidth="210.0" styleClass="mainButtons" text="COMMANDS">
+      <Button fx:id="ordersButton" layoutX="495.0" layoutY="230.0" mnemonicParsing="false" onMouseClicked="#viewToOrders" prefHeight="140.0" prefWidth="210.0" styleClass="mainButtons" text="ORDERS">
          <font>
             <Font name="Ubuntu Sans Mono Regular" size="20.0" />
          </font>

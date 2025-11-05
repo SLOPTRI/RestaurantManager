@@ -8,14 +8,16 @@ package model;
  *
  * @author slt
  */
-public class product {
+public class Product {
     
     private String name;
     private double price;
+    private int quantity;
 
-    public product(String nameX, double priceX){
+    public Product(String nameX, double priceX, int quantityX){
         name = nameX;
         price = priceX;
+        quantity = quantityX;
     }
 
     public void setName(String nameX){
@@ -32,8 +34,16 @@ public class product {
         return price;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
     public String toString(){
-        return getName() + "/" + getPrice();
+        return getName() + "/" + getPrice() + "/"+ getQuantity();
     }
     
 }

@@ -27,7 +27,7 @@ public class MainViewController implements Initializable {
     @FXML
     private Button productsButton;
     @FXML
-    private Button commandsButton;
+    private Button ordersButton;
     @FXML
     private Button tablesButton;
     @FXML
@@ -58,13 +58,13 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
-    private void viewToCommands(MouseEvent event) {
+    private void viewToOrders(MouseEvent event) {
         Stage nuevaV = (Stage) mainPanel.getScene().getWindow();
         
         try {
-            Parent nroot = FXMLLoader.load(getClass().getResource("/view/commandView.fxml"));
+            Parent nroot = FXMLLoader.load(getClass().getResource("/view/orderView.fxml"));
             Scene scene = new Scene(nroot);
-            nuevaV.setTitle("Commands");
+            nuevaV.setTitle("Orders");
             nuevaV.setScene(scene);
             nuevaV.show();
             
@@ -75,6 +75,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void viewToTables(MouseEvent event) {
+        /*
         Stage nuevaV = (Stage) mainPanel.getScene().getWindow();
         
         try {
@@ -87,6 +88,7 @@ public class MainViewController implements Initializable {
         } catch (IOException ex) {
             System.getLogger(MainViewController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
+        */
     }
     
 }

@@ -17,7 +17,10 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -26,7 +29,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import model.product;
+import javafx.stage.Stage;
+import model.Product;
 
 /**
  * FXML Controller class
@@ -38,11 +42,13 @@ public class ProductViewController implements Initializable {
     @FXML
     private AnchorPane mainPanel;
     @FXML
-    private TableView<product> table;
+    private TableView<Product> table;
     @FXML
     private TableColumn<?, ?> nameColumn;
     @FXML
     private TableColumn<?, ?> priceColumn;
+    @FXML
+    private TableColumn<?, ?> quantityColumn;
     @FXML
     private Label mainText;
     @FXML
@@ -55,8 +61,12 @@ public class ProductViewController implements Initializable {
     private Button editButton;
     @FXML
     private Button delButton;
+    @FXML
+    private TextField quantityField;
     
-    private ObservableList<product> productList;
+    private ObservableList<Product> productList;
+    @FXML
+    private Button backButton;
 
     /**
      * Initializes the controller class.
@@ -67,6 +77,7 @@ public class ProductViewController implements Initializable {
         productList = txtToProduct();
         nameColumn.setCellValueFactory(new PropertyValueFactory("name"));        
         priceColumn.setCellValueFactory(new PropertyValueFactory("price"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory("quantity"));
         table.setItems(productList);
        
     }    
@@ -75,8 +86,9 @@ public class ProductViewController implements Initializable {
     private void addProduct(MouseEvent event) {
         String name = nameField.getText();
         double price = Double.parseDouble(priceField.getText());
+        int quantity = Integer.parseInt(quantityField.getText());
 
-        product newProduct = new product(name, price);
+        Product newProduct = new Product(name, price,quantity);
         productList.add(newProduct);
 
         dbManager(productList, newProduct, 1); // agrega solo el nuevo producto
@@ -84,18 +96,21 @@ public class ProductViewController implements Initializable {
         table.refresh();
         nameField.setText("");
         priceField.setText("");
+        quantityField.setText("");
     }
 
 
     @FXML
     private void editProduct(MouseEvent event) {
         
-        product x = table.getSelectionModel().getSelectedItem();
+        Product x = table.getSelectionModel().getSelectedItem();
         String nameValue = nameField.getText();
         double priceValue = Double.parseDouble(priceField.getText());
+        int quantity = Integer.parseInt(quantityField.getText());
         
         x.setName(nameValue);
         x.setPrice(priceValue);
+        x.setQuantity(quantity);
         table.refresh();
         
         dbManager(productList, null, 2);
@@ -104,7 +119,7 @@ public class ProductViewController implements Initializable {
 
     @FXML
     private void delProduct(MouseEvent event) {
-        product selected = table.getSelectionModel().getSelectedItem();
+        Product selected = table.getSelectionModel().getSelectedItem();
         if (selected == null) return;
 
         // Quitar producto de la lista
@@ -120,19 +135,21 @@ public class ProductViewController implements Initializable {
         table.refresh();
         nameField.setText("");
         priceField.setText("");
+        quantityField.setText("");
     }
 
     
     @FXML
     private void selectProduct(MouseEvent event) {
-        product x = table.getSelectionModel().getSelectedItem();
+        Product x = table.getSelectionModel().getSelectedItem();
         nameField.setText(x.getName());
         priceField.setText(String.valueOf(x.getPrice()));
+        quantityField.setText(String.valueOf(x.getQuantity()));
     }
     
     
-    private void dbManager(List<product> productList, product x, int mode) {
-        String path = "src/txtDatabase/database.txt";
+    private void dbManager(List<Product> productList, Product x, int mode) {
+        String path = "src/txtDatabase/products/database.txt";
 
         try {
             if (mode == 1) {
@@ -141,40 +158,40 @@ public class ProductViewController implements Initializable {
                     if (x != null && x.toString() != null && !x.toString().isEmpty()) {
                         bf.write(x.toString());
                         bf.newLine();
-                        System.out.println("Producto agregado correctamente.");
+                        System.out.println("Order added");
                     }
                 }
 
             } else if (mode == 2) {
                 // Mode 2: sobrescribir el archivo completo con la lista actual
                 try (BufferedWriter bf = new BufferedWriter(new FileWriter(path))) {
-                    for (product p : productList) {
+                    for (Product p : productList) {
                         if (p != null && p.toString() != null) {
                             bf.write(p.toString());
                             bf.newLine();
                         }
                     }
-                    System.out.println("Base de datos actualizada correctamente.");
+                    System.out.println("DB Refreshed");
                 }
 
             } else if (mode == 3) {
                 // Mode 3: vaciar la base de datos
                 try (BufferedWriter bf = new BufferedWriter(new FileWriter(path))) {
                     bf.write("");
-                    System.out.println("Base de datos vaciada correctamente.");
+                    System.out.println("DB Cleaned");
                 }
             }
 
         } catch (IOException e) {
-            System.out.println("Error en dbManager: " + e.getMessage());
+            System.out.println("Error in dbManager: " + e.getMessage());
         }
     }
     
-    private ObservableList<product> txtToProduct(){
+    ObservableList<Product> txtToProduct(){
         
-        ObservableList<product> productListArray = FXCollections.observableArrayList();
+        ObservableList<Product> productListArray = FXCollections.observableArrayList();
         
-        try(BufferedReader bw = new BufferedReader(new FileReader("src/txtDatabase/database.txt"))){
+        try(BufferedReader bw = new BufferedReader(new FileReader("src/txtDatabase/products/database.txt"))){
             
             String line;
             
@@ -182,7 +199,7 @@ public class ProductViewController implements Initializable {
                 
                 String[] lineArray = line.split("/");
                 
-                productListArray.add(new product(lineArray[0],Double.parseDouble(lineArray[1])));
+                productListArray.add(new Product(lineArray[0],Double.parseDouble(lineArray[1]),Integer.parseInt(lineArray[2])));
                 
             }
             
@@ -191,6 +208,24 @@ public class ProductViewController implements Initializable {
         }
         
         return productListArray;
+        
+    }
+
+    @FXML
+    private void viewToMain(MouseEvent event) {
+        
+        Stage nuevaV = (Stage) mainPanel.getScene().getWindow();
+        
+        try {
+            Parent nroot = FXMLLoader.load(getClass().getResource("/view/mainView.fxml"));
+            Scene scene = new Scene(nroot);
+            nuevaV.setTitle("Tables");
+            nuevaV.setScene(scene);
+            nuevaV.show();
+            
+        } catch (IOException ex) {
+            System.getLogger(MainViewController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         
     }
     

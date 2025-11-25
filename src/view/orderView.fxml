@@ -16,7 +16,7 @@
           <TableColumn fx:id="orderColumn" prefWidth="435.0" text="ORDER" />
         </columns>
          <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+            
          </columnResizePolicy>
       </TableView>
       <Label layoutX="7.0" layoutY="39.0" prefHeight="30.0" prefWidth="1186.0" styleClass="mainText" stylesheets="@styles.css" text="                                         ORDERS">

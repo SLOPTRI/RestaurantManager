@@ -150,15 +150,13 @@ public class OrderViewController implements Initializable {
                 
                 String[] lineArray = line.split(";");
                 
-                String[] productArray = lineArray[1].split(",");
+                String listaLimpia = lineArray[1].replace("[", "").replace("]", "");
+                
+                String[] productArray = listaLimpia.split(",");
                 int i = 0;
                 for(String x : productArray){
-                    if(i == 0){
-                        x = x.replace("[", "");
-                    }else if( x.endsWith("]") ){
-                        x = x.replace("]", "");
-                    }
-                    i++;
+                    
+                    x = x.trim();
                     String[] productAtt = x.split("/");
                     
                     productList.add(new Product(productAtt[0],Double.parseDouble(productAtt[1]),Integer.parseInt(productAtt[2])));

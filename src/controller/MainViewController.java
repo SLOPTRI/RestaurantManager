@@ -75,7 +75,6 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void viewToTables(MouseEvent event) {
-        /*
         Stage nuevaV = (Stage) mainPanel.getScene().getWindow();
         
         try {
@@ -88,7 +87,6 @@ public class MainViewController implements Initializable {
         } catch (IOException ex) {
             System.getLogger(MainViewController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-        */
     }
     
 }
